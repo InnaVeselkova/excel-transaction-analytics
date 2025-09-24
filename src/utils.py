@@ -1,8 +1,7 @@
 import pandas as pd
 import json
 
-excel_path = "../data/operations.xlsx"
-
+excel_path="../data/operations.xlsx"
 
 def read_excel_file(excel_path):
     # Функция чтения Excel-файла
@@ -16,7 +15,7 @@ def read_excel_file(excel_path):
     return None
 
 
-def excel_to_json(df):
+def excel_to_json(data):
     # Функция преобразования файла из excel в json
     # Преобразование DataFrame в список словарей
     data_list = df.to_dict(orient='records')
@@ -31,7 +30,5 @@ def excel_to_json(df):
 if __name__ == "__main__":
     df = read_excel_file(excel_path)
     if df is not None:
-        excel_to_json(df)
-        print("Преобразование завершено, файл 'operations.json' создан.")
-        print(df)
-
+        data = excel_to_json(df)
+        print(data)
