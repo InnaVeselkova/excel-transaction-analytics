@@ -1,13 +1,5 @@
-from src.views import get_greeting
-from src.utils import excel_to_json, read_excel_file
-
-excel_path="../data/operations.xlsx"
-
-greeting = input(get_greeting())
-print(greeting)
-
-df = read_excel_file(excel_path)
-if df is not None:
-    data_json = excel_to_json(df)
+from src.views import get_main_info
 
 
+if __name__ == "__main__":
+    print(get_main_info("2015-03-21 12:12:12"))

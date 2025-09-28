@@ -1,21 +1,36 @@
 import json
-from datetime import datetime
-
-# Функция для определения приветствия
-def get_greeting():
-    hour = datetime.now().hour
-    if 0 <= hour < 6:
-        return "Доброй ночи"
-    elif 6 <= hour < 12:
-        return "Доброе утро"
-    elif 12 <= hour < 17:
-        return "Добрый день"
-    else:
-        return "Добрый вечер"
+from src.utils import (get_greeting, get_date_time, read_excel_file, sorted_cards_info, top_transactions, get_currency,
+                       get_stocks)
+from typing import Dict, Any
 
 
-# Функция получения данных по картам
-def transactions_data (data_json):
-    response = []
-    for transaction in data_json:
-        transaction.get("Номер карты").append(response)
+excel_path="../data/operations.xlsx"
+path = "../data/user_settings.json"
+
+
+def get_main_info(date_time: str) -> Dict[str, Any]:
+    """
+    Функция, принимающая на вход строку с датой и временем в формате
+    YYYY-MM-DD HH:MM:SS и возвращающая JSON-ответ
+    """
+
+    greeting = get_greeting()
+    time_period = get_date_time(date_time)
+    data_list = read_excel_file(excel_path)
+    card_info = sorted_cards_info(data_list, time_period)
+    top_five = top_transactions(data_list)
+    currency = get_currency(path)
+    stock_prices = get_stocks(path)
+
+    data = {
+        "greeting": greeting,
+        "cards": card_info,
+        "top_transactions": top_five,
+        "currency_rates": currency,
+        "stock_prices": stock_prices
+
+        }
+
+    data_json = json.dumps(data, ensure_ascii=False, indent=4)
+
+    return data_json
