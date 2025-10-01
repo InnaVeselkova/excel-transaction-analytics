@@ -1,12 +1,12 @@
+from pprint import pprint
 import pandas as pd
 import requests
 from dotenv import load_dotenv
 import json
 import os
 from typing import List, Dict, Any
-from datetime import datetime
+from datetime import datetime, timedelta
 from datetime import date
-
 
 path = "../data/user_settings.json"
 excel_path = "../data/operations.xlsx"
@@ -72,7 +72,7 @@ def sorted_cards_info(data_list: List[Dict[str, Any]], time_period: List) -> Lis
     result = []
 
     for record in data_list:
-        payment_date= record.get("Дата операции")
+        payment_date = record.get("Дата операции")
         if payment_date is None:
             continue
 
@@ -80,7 +80,7 @@ def sorted_cards_info(data_list: List[Dict[str, Any]], time_period: List) -> Lis
         if start_date <= payment_date <= end_date:
             total_spent = record.get("Сумма операции", 0)
             cashback = total_spent // 100
-        # Собираем информацию по карте
+            # Собираем информацию по карте
             info = {
                 "last_digits": record.get("Номер карты", ""),
                 "total_spent": total_spent,
@@ -96,7 +96,7 @@ def top_transactions(data_list: List[Dict[str, Any]]) -> List[Dict]:
     Функция для получения 5 транзакций с наибольшей суммой
     """
     sorted_cards = sorted(data_list, key=lambda x: x["Сумма операции"], reverse=True)
-    result_five = sorted_cards [:5]
+    result_five = sorted_cards[:5]
 
     result = []
 
@@ -121,7 +121,7 @@ def get_currency(path: str) -> List[Dict]:
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
         for currency in data["user_currencies"]:
-            params ={
+            params = {
                 "amount": 1,
                 "from": f"{currency}",
                 "to": "RUB"
@@ -135,7 +135,7 @@ def get_currency(path: str) -> List[Dict]:
             result_rate = round(result["result"], 2)
             currency_data.append({
                 "currency": f"{result_currency}",
-                "rate": f"{result_rate }"
+                "rate": f"{result_rate}"
             })
         return currency_data
 
@@ -146,28 +146,26 @@ def get_stocks(path: str) -> List[Dict]:
     """
     with open(path, "r", encoding="utf-8") as f:
         data = json.load(f)
+        stocks = []
         for stock in data["user_stocks"]:
-            today = date.today()
+            yesterday = date.today() - timedelta(days=1)
             url = f"https://www.alphavantage.co/query"
             params = {
-                "function": today,
+                "function": "TIME_SERIES_DAILY",
                 "symbol": f"{stock}",
-                "interval": "5min"
-            }
-            headers = {
                 "apikey": exchange_API_stock
             }
 
-            response = requests.get(url=url, headers=headers, params=params)
+            response = requests.get(url=url, params=params)
             result = response.json()
-            print(result)
-
-
-        return data
+            pprint(result)
+            result_price = round(float(result['Time Series (Daily)'][yesterday]["2. high"]), 2)
+            stocks.append({
+                "stock": stock,
+                "price": result_price
+            })
+        return stocks
 
 
 if __name__ == "__main__":
-    get_stocks(path)
-
-
-
+    print(read_excel_file(excel_path))

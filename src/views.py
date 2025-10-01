@@ -28,7 +28,6 @@ def get_main_info(date_time: str) -> Dict[str, Any]:
         "top_transactions": top_five,
         "currency_rates": currency,
         "stock_prices": stock_prices
-
         }
 
     data_json = json.dumps(data, ensure_ascii=False, indent=4)
