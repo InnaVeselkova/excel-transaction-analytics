@@ -3,7 +3,6 @@ import functools
 from typing import Optional
 
 import pandas as pd
-import logging
 
 from src.utils import read_excel_file, logger
 
@@ -52,7 +51,7 @@ def spending_by_category(transactions: pd.DataFrame,
         logger.debug("Дата не указана, используется текущая дата")
     else:
         date = pd.to_datetime(date)
-        logger.debug(f"Обрабатываемая дата: {date_dt}")
+        logger.debug(f"Обрабатываемая дата: {date}")
 
     three_months_ago = date - pd.DateOffset(months=3)
 
