@@ -1,17 +1,17 @@
+import json
+import os
+from datetime import date, datetime, timedelta
 from pprint import pprint
+from typing import Any, Dict, List
+
 import pandas as pd
 import requests
 from dotenv import load_dotenv
-import json
-import os
-from typing import List, Dict, Any
-from datetime import datetime, timedelta
-from datetime import date
 
 path = "../data/user_settings.json"
 excel_path = "../data/operations.xlsx"
 
-URL = f"https://api.apilayer.com/exchangerates_data/convert"
+URL = "https://api.apilayer.com/exchangerates_data/convert"
 
 # Загрузка переменных из .env-файла
 load_dotenv()
@@ -149,7 +149,7 @@ def get_stocks(path: str) -> List[Dict]:
         stocks = []
         for stock in data["user_stocks"]:
             yesterday = date.today() - timedelta(days=1)
-            url = f"https://www.alphavantage.co/query"
+            url = "https://www.alphavantage.co/query"
             params = {
                 "function": "TIME_SERIES_DAILY",
                 "symbol": f"{stock}",

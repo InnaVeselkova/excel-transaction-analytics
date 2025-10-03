@@ -1,12 +1,13 @@
 import json
 import re
-from typing import List, Dict
+from typing import Dict, List
+
 from src.utils import read_excel_file
 
 excel_path = "../data/operations.xlsx"
 
 
-def filter_personal_transfers(data_list: List[Dict]) -> List[Dict]:
+def filter_personal_transfers(data_list: List[Dict]) -> str:
     """
     Функция фильтрует транзакции, относящиеся к переводам физлицам
     """

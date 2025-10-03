@@ -1,11 +1,16 @@
 import json
-from src.utils import (get_greeting, get_date_time, read_excel_file, sorted_cards_info, top_transactions, get_currency,
-                       get_stocks)
-from typing import Dict, Any
+from typing import Any, Dict
 
+import pandas as pd
 
-excel_path="../data/operations.xlsx"
+from reports import get_expense_report
+from src.services import filter_personal_transfers
+from src.utils import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
+                       top_transactions)
+
+excel_path = "../data/operations.xlsx"
 path = "../data/user_settings.json"
+transactions = pd.DataFrame(read_excel_file(excel_path))
 
 
 def get_main_info(date_time: str) -> Dict[str, Any]:
@@ -33,3 +38,17 @@ def get_main_info(date_time: str) -> Dict[str, Any]:
     data_json = json.dumps(data, ensure_ascii=False, indent=4)
 
     return data_json
+
+
+def get_personal_transfers() -> str:
+    """
+    Функция возвращающая JSON-строку с транзакциями, содержащими только переводы физ.лицам
+    """
+    return filter_personal_transfers(read_excel_file(excel_path))
+
+
+def get_report():
+    """
+    Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)
+    """
+    return get_expense_report(transactions, "Переводы", date="2018-03-20 12:11:12")
