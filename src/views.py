@@ -55,4 +55,4 @@ def get_report():
 
 
 if __name__ == "__main__":
-    print(get_main_info("2025-10-03 18:14:12"))
+    print(get_report())

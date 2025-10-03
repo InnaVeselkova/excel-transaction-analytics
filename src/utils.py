@@ -2,7 +2,6 @@ import json
 import os
 import logging
 from datetime import date, datetime, timedelta
-from pprint import pprint
 from typing import Any, Dict, List
 
 import pandas as pd
@@ -180,6 +179,7 @@ def get_stocks(path: str) -> List[Dict]:
             stocks = []
             for stock in data["user_stocks"]:
                 yesterday = date.today() - timedelta(days=1)
+                yesterday_str = yesterday.strftime("%Y-%m-%d")
                 url = "https://www.alphavantage.co/query"
                 params = {
                     "function": "TIME_SERIES_DAILY",
@@ -189,8 +189,7 @@ def get_stocks(path: str) -> List[Dict]:
 
                 response = requests.get(url=url, params=params)
                 result = response.json()
-                pprint(result)
-                result_price = round(float(result['Time Series (Daily)'][yesterday]["2. high"]), 2)
+                result_price = round(float(result['Time Series (Daily)'][yesterday_str]['2. high']), 2)
                 stocks.append({
                     "stock": stock,
                     "price": result_price
@@ -202,4 +201,4 @@ def get_stocks(path: str) -> List[Dict]:
 
 
 if __name__ == "__main__":
-    print(read_excel_file(excel_path))
+    print(get_stocks(path))
