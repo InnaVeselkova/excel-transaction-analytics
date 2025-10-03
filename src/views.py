@@ -54,5 +54,5 @@ def get_report():
     return get_expense_report(transactions, "Переводы", date="2018-03-20 12:11:12")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print(get_report())

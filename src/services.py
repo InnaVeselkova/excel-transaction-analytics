@@ -30,5 +30,5 @@ def filter_personal_transfers(data_list: List[Dict]) -> str:
     return result_json
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     print(filter_personal_transfers(read_excel_file(excel_path)))
