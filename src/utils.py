@@ -200,5 +200,5 @@ def get_stocks(path: str) -> List[Dict]:
         return []
 
 
-if __name__ == "__main__": # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     print(get_stocks(path))
