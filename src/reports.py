@@ -4,7 +4,7 @@ from typing import Optional
 
 import pandas as pd
 
-from src import read_excel_file, logger
+from src.utils import read_excel_file, logger
 
 excel_path = "../data/operations.xlsx"
 

@@ -4,8 +4,8 @@ from typing import Any, Dict
 import pandas as pd
 
 from reports import get_expense_report
-from src import filter_personal_transfers
-from src import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
+from src.services import filter_personal_transfers
+from src.utils import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
                  top_transactions)
 
 excel_path = "../data/operations.xlsx"
