@@ -6,8 +6,8 @@ from unittest.mock import Mock, call, mock_open, patch
 import pytest
 from dotenv import load_dotenv
 
-from src.utils import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
-                       top_transactions)
+from src import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
+                 top_transactions)
 
 load_dotenv()
 
@@ -265,25 +265,23 @@ def test_get_currency(mock_get):
 
 @patch('requests.get')
 def test_get_stocks_simple(mock_get):
-    # Настроим глобальные переменные
     global exchange_API_stock
     exchange_API_stock = 'test_api_key'
 
-    # Тестовые данные, которые будут в файле
     test_data = {
         "user_stocks": ["AAPL", "GOOGL"]
     }
 
-    # Путь к "файлу" — мы замокаем open, чтобы не читать настоящий файл
     path = "fake_path.json"
 
-    # Мокаем открытие файла и json.load, чтобы вернуть тест_data
     with patch("builtins.open", mock_open(read_data=json.dumps(test_data))):
-
-        # Настроим мок response.json() — возвращаем фиксированные данные с нужной датой
-        yesterday = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
         mock_response = Mock()
+        yesterday = (date.today() - timedelta(days=1)).strftime("%Y-%m-%d")
+
         mock_response.json.return_value = {
+            "Meta Data": {
+                "3. Last Refreshed": yesterday
+            },
             "Time Series (Daily)": {
                 yesterday: {
                     "2. high": "300.00"
@@ -291,11 +289,7 @@ def test_get_stocks_simple(mock_get):
             }
         }
 
-        # requests.get всегда возвращает наш mock_response
         mock_get.return_value = mock_response
-
-        # Импорт или определение get_stocks здесь,
-        # либо убедитесь, что функция импортирована
 
         result = get_stocks(path)
 
@@ -303,5 +297,4 @@ def test_get_stocks_simple(mock_get):
             {"stock": "AAPL", "price": 300.00},
             {"stock": "GOOGL", "price": 300.00},
         ]
-
         assert result == expected

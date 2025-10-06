@@ -2,7 +2,7 @@ import json
 import re
 from typing import Dict, List
 
-from src.utils import read_excel_file, logger
+from src import read_excel_file, logger
 
 excel_path = "../data/operations.xlsx"
 

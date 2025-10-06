@@ -2,7 +2,7 @@ import datetime
 
 import pandas as pd
 
-from src.reports import get_expense_report, spending_by_category
+from src import get_expense_report, spending_by_category
 
 
 def test_get_expense_report_recent_category(sample_transactions):
