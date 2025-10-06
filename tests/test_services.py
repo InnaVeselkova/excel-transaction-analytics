@@ -2,7 +2,7 @@ import json
 
 import pytest
 
-from src import filter_personal_transfers
+from src.services import filter_personal_transfers
 
 
 @pytest.mark.parametrize(

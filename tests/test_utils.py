@@ -6,8 +6,15 @@ from unittest.mock import Mock, call, mock_open, patch
 import pytest
 from dotenv import load_dotenv
 
-from src import (get_currency, get_date_time, get_greeting, get_stocks, read_excel_file, sorted_cards_info,
-                 top_transactions)
+from src.utils import (
+    get_currency,
+    get_date_time,
+    get_greeting,
+    get_stocks,
+    read_excel_file,
+    sorted_cards_info,
+    top_transactions
+)
 
 load_dotenv()
 
