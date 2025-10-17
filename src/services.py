@@ -4,8 +4,6 @@ from typing import Dict, List
 
 from src.utils import read_excel_file, logger
 
-excel_path = "../data/operations.xlsx"
-
 
 def filter_personal_transfers(data_list: List[Dict]) -> str:
     """
@@ -28,7 +26,3 @@ def filter_personal_transfers(data_list: List[Dict]) -> str:
     result_json = json.dumps(filtered, ensure_ascii=False, indent=2)
     logger.info("Фильтрация завершена.")
     return result_json
-
-
-if __name__ == "__main__":  # pragma: no cover
-    print(filter_personal_transfers(read_excel_file(excel_path)))

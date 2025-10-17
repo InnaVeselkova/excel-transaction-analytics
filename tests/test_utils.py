@@ -28,12 +28,9 @@ path = "../data/user_settings.json"
 
 def test_read_excel_file_success(sample_excel):
     # Проверка успешного чтения файла
-    result = read_excel_file(sample_excel)
-    assert isinstance(result, list)
-    assert len(result) == 2
+    result = read_excel_file("./sample.xlsx")
     # Проверка содержимого
-    assert result[0]['Column1'] == 1
-    assert result[0]['Column2'] == 'A'
+    assert result == sample_excel
 
 
 def test_read_excel_file_not_found():

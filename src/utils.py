@@ -11,13 +11,12 @@ from dotenv import load_dotenv
 # Настройка логгера
 logging.basicConfig(
     level=logging.INFO,
-    format="%(asctime)s [%(levelname)s] %(message)s",
+    format="%(asctime)s [%(levelname)s] %(funcName)s %(filename)s %(message)s",
     handlers=[logging.StreamHandler()]
 )
 logger = logging.getLogger(__name__)
 
-path = "../data/user_settings.json"
-excel_path = "../data/operations.xlsx"
+path = "./data/user_settings.json"
 
 URL = "https://api.apilayer.com/exchangerates_data/convert"
 
@@ -200,4 +199,4 @@ def get_stocks(path: str) -> List[Dict]:
 
 
 if __name__ == "__main__":  # pragma: no cover
-    print(get_stocks(path))
+    print(read_excel_file("../tests/sample.xlsx"))

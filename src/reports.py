@@ -6,8 +6,6 @@ import pandas as pd
 
 from src.utils import read_excel_file, logger
 
-excel_path = "../data/operations.xlsx"
-
 
 def save_report_to_file(filename="Three_monthly_expenses.txt"):
     """
@@ -28,13 +26,6 @@ def save_report_to_file(filename="Three_monthly_expenses.txt"):
         return wrapper
     return decorator
 
-
-try:
-    transactions = pd.DataFrame(read_excel_file(excel_path))
-    logger.info(f"Успешно прочитан файл Excel: {excel_path}, количество записей: {len(transactions)}")
-except Exception as e:
-    logger.error(f"Ошибка при чтении файла Excel: {excel_path}\n{e}")
-    transactions = pd.DataFrame()  # создаем пустой DataFrame в случае ошибки
 
 
 def spending_by_category(transactions: pd.DataFrame,
@@ -80,8 +71,3 @@ def get_expense_report(transactions, category, date=None):
     report_ = f"Общие расходы по категории '{category}' за последние 3 месяца: {total}"
     logger.info("Отчет сформирован")
     return report_
-
-
-if __name__ == "__main__":  # pragma: no cover
-    report = get_expense_report(transactions, "Переводы", date="2018-03-20 12:11:12")
-    print(report)

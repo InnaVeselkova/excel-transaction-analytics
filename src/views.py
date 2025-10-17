@@ -3,7 +3,7 @@ from typing import Any, Dict
 
 import pandas as pd
 
-from reports import get_expense_report
+from src.reports import get_expense_report
 from src.services import filter_personal_transfers
 from src.utils import (
     get_currency,
@@ -15,9 +15,9 @@ from src.utils import (
     top_transactions
 )
 
-excel_path = "../data/operations.xlsx"
-path = "../data/user_settings.json"
-transactions = pd.DataFrame(read_excel_file(excel_path))
+excel_path = "./data/operations.xlsx"
+path = "./data/user_settings.json"
+
 
 
 def get_main_info(date_time: str) -> Dict[str, Any]:
@@ -28,7 +28,7 @@ def get_main_info(date_time: str) -> Dict[str, Any]:
 
     greeting = get_greeting()
     time_period = get_date_time(date_time)
-    data_list = read_excel_file(excel_path)
+    data_list = read_excel_file("./data/operations.xlsx")
     card_info = sorted_cards_info(data_list, time_period)
     top_five = top_transactions(data_list)
     currency = get_currency(path)
@@ -58,8 +58,9 @@ def get_report():
     """
     Функция возвращает траты по заданной категории за последние три месяца (от переданной даты)
     """
+    transactions = pd.DataFrame(read_excel_file("./data/operations.xlsx"))
     return get_expense_report(transactions, "Переводы", date="2018-03-20 12:11:12")
 
 
 if __name__ == "__main__":  # pragma: no cover
-    print(get_report())
+    print(get_main_info("2018-03-20 12:11:12"))
